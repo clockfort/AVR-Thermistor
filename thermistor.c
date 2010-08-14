@@ -7,6 +7,9 @@
 *  				      |
 *  				Microcontroller ADC
 *
+* I haven't back-of-the-napkin'd the math, but I believe you might want to 
+* use a lower-tolerance resistor than you would normally care about.
+*
 * Portions of this code are borrowed from Paul J Stoffregen's sample ADC code,
 * many thanks to him for providing readable examples.
 */
@@ -63,6 +66,7 @@ int16_t read_analog_input(){
 void take_temperature_reading(){
 	float reading = read_analog_input();
 	// I apologize for the following code, it's based off of an Arduino Playground example
+	// It seems to mumble something about being a 10K-ohm specific version of a Steinhart-Hart Thermistor Equation :-)
 	reading = log(((10240000/reading) - 10000)); 
 	reading = 1 / (0.001129148 + (0.000234125 * reading) + (0.0000000876741 * reading * reading * reading));
 	reading -= 273.15; //K to C

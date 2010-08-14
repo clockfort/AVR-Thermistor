@@ -1,0 +1,17 @@
+AVR Thermistor-based Thermometer
+================================
+Chris Lockfort <clockfort@csh.removethispartforspam.rit.edu>
+
+== About This Project
+Using a thermistor and a resistor and an AVR chip, this code semi-accurately measures the temperature.  Specifically I am using the teensy board, though intentionally the code is very portable to almost any other AVR chip, and likely you will only have to change the makefile to match your architecture and your perhaps your pinout.
+
+== Example Schematic
+
+---- 
+
+  GND --- 10K ohm normal resistor ---|--- 10K ohm thermistor ---- VCC
+                                     |
+                               Microcontroller ADC
+----
+
+CAUTION: I haven't back-of-the-napkin'd the math, but I believe you might want to use a lower-tolerance resistor than you would normally care about.
