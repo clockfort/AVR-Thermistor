@@ -5,6 +5,8 @@
 
 void initialize_analog_inputs(void);
 int16_t read_analog_input(void);
+void take_temperature_reading(void);
+
 static uint8_t aref = (1<<REFS0); //I want VCC as my AREF
 
 // These prescaler values are for high speed mode, ADHSM = 1

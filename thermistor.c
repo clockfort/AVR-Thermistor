@@ -30,16 +30,19 @@
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <stdint.h>
+#include <math.h>
 #include "thermistor.h"
-
 #define CPU_PRESCALE(n)	(CLKPR = 0x80, CLKPR = (n))
+
+float temperature = 0.0;
 
 int main(void)
 {
 	CPU_PRESCALE(0); //16 MHz clock
 	initialize_analog_inputs();
-	read_analog_input();
-	
+	while(1){
+		take_temperature_reading();
+	}
 }
 
 void initialize_analog_inputs(){
@@ -55,4 +58,14 @@ int16_t read_analog_input(){
         int16_t ret_val = ADCH << 8;
         ret_val |= lower_byte;
         return ret_val;
+}
+
+void take_temperature_reading(){
+	float reading = read_analog_input();
+	// I apologize for the following code, it's based off of an Arduino Playground example
+	reading = log(((10240000/reading) - 10000)); 
+	reading = 1 / (0.001129148 + (0.000234125 * reading) + (0.0000000876741 * reading * reading * reading));
+	reading -= 273.15; //K to C
+	reading = (reading * 9.0)/ 5.0 + 32.0; // C to F
+	temperature = reading;
 }
